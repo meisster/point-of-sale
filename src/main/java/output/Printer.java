@@ -11,4 +11,10 @@ public class Printer {
             return new Printer();
         return INSTANCE;
     }
+
+    public void print(String... messages){
+        for (String message : messages) {
+            System.out.println("PRINTER: " + message);
+        }
+    }
 }
