@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.stream.Stream;
 
 public class BarCodeScanner {
 
@@ -41,18 +39,29 @@ public class BarCodeScanner {
         }
     }
 
+    public int getTotalSum(){
+        return receipt.entrySet().stream()
+                      .mapToInt(e -> e.getValue().intValue()*e.getKey().getPrice().intValue())
+                      .sum();
+    }
+
+    public void clearReceipt(){
+        receipt = new HashMap<>();
+    }
+
     public void getReceipt() {
+
         Printer.getInstance().print("*******************");
         Printer.getInstance().print("******RECEIPT******");
+
         receipt.forEach((k, v) -> Printer.getInstance().print(k.getName() + " X " + v.intValue()));
-        int totalSum =
-                receipt.entrySet().stream()
-                       .mapToInt(e -> e.getValue().intValue()*e.getKey().getPrice().intValue())
-                       .sum();
+        int totalSum = getTotalSum();
+
         Printer.getInstance().print("TOTAL SUM: " + totalSum + "$");
         Printer.getInstance().print("******RECEIPT******");
         Printer.getInstance().print("*******************");
         LCDDisplay.getInstance().print("TOTAL SUM: " + totalSum + "$");
-        receipt = new HashMap<>();
+
+        clearReceipt();
     }
 }

@@ -3,19 +3,18 @@ package output;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class LCDDisplay {
+public class LCDDisplay extends OutputDevice{
 
-    public static LCDDisplay INSTANCE;
+    private static LCDDisplay INSTANCE;
+
+    private LCDDisplay(String name){
+        super(name);
+    }
 
     public static LCDDisplay getInstance(){
         if(INSTANCE == null)
-            return new LCDDisplay();
+            INSTANCE = new LCDDisplay("LCD_DISPLAY");
         return INSTANCE;
     }
 
-    public void print(String... messages){
-        for (String message : messages) {
-            System.out.println("LCD_DISPLAY: " + message);
-        }
-    }
 }

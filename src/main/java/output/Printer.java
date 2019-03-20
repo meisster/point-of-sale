@@ -3,18 +3,18 @@ package output;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class Printer {
-    public static Printer INSTANCE;
+public class Printer extends OutputDevice{
+
+    private static Printer INSTANCE;
+
+    private Printer(String name){
+        super(name);
+    }
 
     public static Printer getInstance(){
         if(INSTANCE == null)
-            return new Printer();
+            INSTANCE = new Printer("PRINTER");
         return INSTANCE;
     }
 
-    public void print(String... messages){
-        for (String message : messages) {
-            System.out.println("PRINTER: " + message);
-        }
-    }
 }

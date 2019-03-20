@@ -14,5 +14,6 @@ public class Main {
         BarCodeScanner.getInstance().scanProduct(lasagne.getID());
         BarCodeScanner.getInstance().scanProduct(makaron.getID());
         BarCodeScanner.getInstance().getReceipt();
+        Menu.menu();
     }
 }
