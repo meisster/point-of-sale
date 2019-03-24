@@ -1,8 +1,5 @@
 package output;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
 public class Printer extends OutputDevice{
 
     private static Printer INSTANCE;
