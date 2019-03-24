@@ -1,8 +1,5 @@
 package output;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
 public class LCDDisplay extends OutputDevice{
 
     private static LCDDisplay INSTANCE;

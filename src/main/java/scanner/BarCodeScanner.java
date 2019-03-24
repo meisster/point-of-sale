@@ -21,27 +21,34 @@ public class BarCodeScanner {
         return INSTANCE;
     }
 
-    public void scanProduct(Long productID) {
-        if (productID != 0) {
+    public int scanProduct(Long productID) {
+
+        if (String.valueOf(productID).matches("^[1-9][0-9]{5}")) {
+
             Optional<Product> scannedProduct = ProductDatabase.getINSTANCE().getProduct(productID);
+
             if (scannedProduct.isPresent()) {
+
                 receipt.computeIfPresent(scannedProduct.get(), (k, v) -> v.add(BigDecimal.ONE));
                 receipt.putIfAbsent(scannedProduct.get(), BigDecimal.ONE);
                 LCDDisplay.getInstance().print(scannedProduct.get().getName()
                                                        + " added with price: "
                                                        + scannedProduct.get().getPrice()
                                                        + "$");
+                return 1;
             } else {
                 LCDDisplay.getInstance().print("Product not found");
+                return 0;
             }
         } else {
             LCDDisplay.getInstance().print("Invalid bar-code");
+            return -1;
         }
     }
 
-    public int getTotalSum(){
+    private double getTotalSum(){
         return receipt.entrySet().stream()
-                      .mapToInt(e -> e.getValue().intValue()*e.getKey().getPrice().intValue())
+                      .mapToDouble(e -> e.getValue().doubleValue()*e.getKey().getPrice().doubleValue())
                       .sum();
     }
 
@@ -51,16 +58,16 @@ public class BarCodeScanner {
 
     public void getReceipt() {
 
-        Printer.getInstance().print("*******************");
-        Printer.getInstance().print("******RECEIPT******");
+        Printer.getInstance().print("*******************",
+                                    "******RECEIPT******");
 
         receipt.forEach((k, v) -> Printer.getInstance().print(k.getName() + " X " + v.intValue()));
-        int totalSum = getTotalSum();
+        double totalSum = getTotalSum();
 
-        Printer.getInstance().print("TOTAL SUM: " + totalSum + "$");
-        Printer.getInstance().print("******RECEIPT******");
-        Printer.getInstance().print("*******************");
-        LCDDisplay.getInstance().print("TOTAL SUM: " + totalSum + "$");
+        Printer.getInstance().print(String.format("TOTAL SUM: %.2f$", totalSum),
+                                    "******RECEIPT******",
+                                    "*******************");
+        LCDDisplay.getInstance().print(String.format("TOTAL SUM: %.2f$",totalSum));
 
         clearReceipt();
     }
