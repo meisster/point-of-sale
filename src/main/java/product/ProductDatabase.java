@@ -10,16 +10,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collector;
 
 @Data
 public class ProductDatabase {
 
     public Map<Long, Product> productList = new HashMap<>();
-
-    private static class ProductHelper {
-        private static ProductDatabase INSTANCE = new ProductDatabase();
-    }
 
     public static ProductDatabase getINSTANCE() {
         return ProductHelper.INSTANCE;
@@ -53,9 +48,13 @@ public class ProductDatabase {
               .forEach(product -> productList.putIfAbsent(product.getID(), product));
     }
 
-    public Product getRandomProduct(){
+    public Product getRandomProduct() {
         List<Product> values = new ArrayList<>(productList.values());
-        return values.get(new Random().nextInt(values.size()-1));
+        return values.get(new Random().nextInt(values.size() - 1));
+    }
+
+    private static class ProductHelper {
+        private static ProductDatabase INSTANCE = new ProductDatabase();
     }
 
 

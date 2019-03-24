@@ -1,35 +1,46 @@
 package scanner;
 
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import product.ProductDatabase;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
-
+@RunWith(Parameterized.class)
 public class BarCodeScannerParameterizedTest {
 
+    private long ID;
+
+    private long status;
+
+    public BarCodeScannerParameterizedTest(long ID, long status) {
+        this.ID = ID;
+        this.status = status;
+    }
+
     @BeforeClass
+    public static void setup() {
+        ProductDatabase.getINSTANCE().initializeDatabase();
+    }
 
 
     @Parameterized.Parameters
-    public static Collection<Object[]> testScan(){
+    public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {0L, -1},
-                {1234L, 0},
-
+                {10000L, -1},
+                {725558L, 1},
+                {123456L, 0}
         });
     }
 
     @Test
     public void scanProduct() {
-
+        Assert.assertEquals(BarCodeScanner.getInstance().scanProduct(ID), status);
     }
 
-    @Test
-    public void getTotalSum() {
-    }
 }

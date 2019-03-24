@@ -52,7 +52,7 @@ public class BarCodeScanner {
                       .sum();
     }
 
-    public void clearReceipt(){
+    private void clearReceipt(){
         receipt = new HashMap<>();
     }
 

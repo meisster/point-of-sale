@@ -7,20 +7,15 @@ import org.junit.Test;
 
 public class ProductDatabaseTest {
 
-    private static ProductDatabase productDatabase;
 
-    @BeforeClass
-    public static void setup(){
-        productDatabase = new ProductDatabase();
+    @Test
+    public void initializeDatabaseText() {
+        ProductDatabase.getINSTANCE().initializeDatabase();
+        Assert.assertEquals(1000, ProductDatabase.getINSTANCE().getProductList().size());
     }
 
     @Test
-    public void addProductTest() {
-
-    }
-
-    @Test
-    public void getSizeTest() {
-
+    public void getRandomProductTest() {
+        Assert.assertNotNull("Null object!", ProductDatabase.getINSTANCE().getRandomProduct());
     }
 }

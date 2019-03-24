@@ -26,7 +26,7 @@ public class ProductMaker implements ProductBuilder{
 
     @Override
     public Product getProduct() {
-        if (product.getName() == null || product.getPrice() == null || product.getID() == null)
+        if (product.getName() == null || product.getPrice() == null || product.getID() == 0)
             return null;
         return product;
     }
